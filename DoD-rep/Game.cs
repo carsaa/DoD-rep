@@ -32,7 +32,7 @@ namespace DoD_rep
                 CheckRoom();
 
 
-            } while (player.PlayerHealth > 0);
+            } while (player.Health > 0);
         }
 
         private void DisplayBag()
@@ -54,7 +54,7 @@ namespace DoD_rep
             {
                 Food food = currentRoom.item as Food; //TODO!!! Varför???
 
-                player.PlayerHealth += food.Health;
+                player.Health += food.Health;
                 currentRoom.item = null;
             }
             else if (currentRoom.item is Weapon && currentRoom.item != null)
@@ -74,8 +74,8 @@ namespace DoD_rep
 
         private void DisplayPlayStats()
         {
-            Console.WriteLine($"Player: {player.PlayerName}");
-            Console.WriteLine($"Health: {player.PlayerHealth}");
+            Console.WriteLine($"Player: {player.Name}");
+            Console.WriteLine($"Health: {player.Health}");
             Console.WriteLine($"Bag weight: {bag.TotalWeight}");
         }
 
@@ -103,7 +103,7 @@ namespace DoD_rep
                 player.X = newX;
                 player.Y = newY;
 
-                player.PlayerHealth--;
+                player.Health--;
             }
 
         }
@@ -118,7 +118,7 @@ namespace DoD_rep
                 {
                     if (player.X == x && player.Y == y) //Om positionen överensstämmer med spelaren så skriv ut spelarens namn
                     {
-                        Console.Write(player.PlayerName);
+                        Console.Write(player.Name);
                     }
                     else if (world[x, y].item is Food && world[x,y].item != null) //Annars om rummet inte är tomt så skriv Ä
                     {

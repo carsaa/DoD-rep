@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace DoD_rep
 {
-    class Monster : Creature
+    class Creature : GameObject
     {
-        public Monster(int health, string name) : base(name, health)
+        public Creature(string name, int health) : base (name)
         {
+            Health = health;  
         }
 
+        public int Health { get; set; }
     }
 }
