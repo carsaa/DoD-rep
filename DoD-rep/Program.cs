@@ -10,6 +10,7 @@ namespace DoD_rep
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Hejhej");
         }
     }
 }
