@@ -17,6 +17,7 @@ namespace DoD_rep
 
             do
             {
+                Console.Clear();
                 DisplayWorld();
                 AskForMovement();
                
@@ -26,47 +27,55 @@ namespace DoD_rep
 
         private void AskForMovement()
         {
-            ConsoleKeyInfo consoleKey = new ConsoleKeyInfo();
-            int newX = 0;
-            int newY = 0;
+            ConsoleKeyInfo consoleKey = Console.ReadKey();
+            int newX = player.X;
+            int newY = player.Y;
 
+            bool isValidMove = true;
+       
             switch (consoleKey.Key)
             {
                 case ConsoleKey.RightArrow: newX++; break;
                 case ConsoleKey.LeftArrow: newX--; break;
                 case ConsoleKey.UpArrow: newY--; break;
                 case ConsoleKey.DownArrow: newY++; break;
-                    
+                default: isValidMove = false; break;
             }
+
+            if(isValidMove && 
+                newX >=0 && newX < world.GetLength(0) && 
+                newY  >= 0 && newY < world.GetLength(1))
+            {
+                player.X = newX;
+                player.Y = newY;
+            }            
+
         }
 
         private void DisplayWorld()
         {
-            Console.Clear();
+            //Console.Clear();
 
             for (int y = 0; y < world.GetLength(1); y++)
             {
                 for (int x = 0; x < world.GetLength(0); x++)
                 {
-                    if (x != 0 || y != 0)
+                    if (player.X != x || player.Y != y )
                     {
                         Console.Write(".");
                     }
-                    else
+                    else if (player.X == x && player.Y == y)
                     {
                         Console.Write(player.PlayerName);
                     }
                 }
-
                 Console.WriteLine();
             }
-
-            Console.ReadKey();
         }
 
         private void CreateWorld()
         {
-            player = new Player("P", 100, 0, 0);
+            player = new Player("P", 100, 5, 5);
 
             for (int y = 0; y < world.GetLength(1); y++)
             {
