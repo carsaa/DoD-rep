@@ -50,7 +50,14 @@ namespace DoD_rep
         {
             Room currentRoom = world[player.X, player.Y];
 
-            if (currentRoom.item != null)
+            if (currentRoom.item is Food && currentRoom.item != null) //TODO!!! Varför???
+            {
+                Food food = currentRoom.item as Food; //TODO!!! Varför???
+
+                player.PlayerHealth += food.Health;
+                currentRoom.item = null;
+            }
+            else if (currentRoom.item is Weapon && currentRoom.item != null)
             {
                 player.bag.Add(currentRoom.item);
                 bag.TotalWeight += currentRoom.item.Weight;
@@ -113,9 +120,13 @@ namespace DoD_rep
                     {
                         Console.Write(player.PlayerName);
                     }
-                    else if (world[x, y].item != null) //Annars om rummet inte är tomt så skriv Ä
+                    else if (world[x, y].item is Food && world[x,y].item != null) //Annars om rummet inte är tomt så skriv Ä
                     {
                         Console.Write("Ä");
+                    }
+                    else if (world[x, y].item is Weapon && world[x, y].item != null) //Annars om rummet inte är tomt så skriv Ä
+                    {
+                        Console.Write("S");
                     }
                     else if (world[x, y].monster != null) //Annars om rummet inte är tomt så skriv Ä
                     {
@@ -143,7 +154,13 @@ namespace DoD_rep
 
                     if (random.Next(0, 101) < 10) //Om slumparen ger oss en siffra under 10 så får rummet ett item
                     {
-                        room.item = new Item("Ä", 1);
+                        if (random.Next(0, 2) == 0)
+                        {
+                            room.item = new Food("Ä", 1, 5);
+                        }
+                        else
+                            room.item = new Weapon("S", 1);
+
                     }
                     else if (random.Next(0, 101) < 20)
                     {

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DoD_rep
 {
-    abstract class Item : GameObject
+    class Food: Item
     {
-        public Item(string name, int weight) : base(name)
+        public Food(string name, int weight, int health) :base (name,weight)
         {
-            Weight = weight;
+            Health = health;
         }
-        public int Weight { get; set; }
 
+        public int Health { get; set; }
     }
 }
