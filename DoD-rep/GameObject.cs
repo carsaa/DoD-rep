@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace DoD_rep
 {
-    class Room
+    class GameObject
     {
+        public GameObject(string name)
+        {
+            Name = name;
+        }
 
-        public Item item { get; set; }
-        public Monster monster { get; set; }
-
-
+        public string Name { get; set; }
     }
 }

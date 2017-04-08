@@ -9,20 +9,67 @@ namespace DoD_rep
     class Game
     {
         Room[,] world = new Room[20, 10];
+        Random random = new Random();
         Player player;
+        Item item;
+        Bag bag = new Bag();
+        //int totalWeight = 0;
 
         public void Play()
         {
             CreateWorld();
+            DisplayPlayStats();
+            DisplayWorld();
+            DisplayBag();
 
             do
             {
-                Console.Clear();
-                DisplayWorld();
                 AskForMovement();
-               
+                Console.Clear();
+                DisplayPlayStats();
+                DisplayWorld();
+                DisplayBag();
+                CheckRoom();
+
 
             } while (player.PlayerHealth > 0);
+        }
+
+        private void DisplayBag()
+        {
+            Console.Write($"Items in bag: ");
+
+            foreach (var item in player.bag)
+            {
+                Console.Write($"{item.Name}, ");
+            }
+            Console.WriteLine();
+        }
+
+        private void CheckRoom()
+        {
+            Room currentRoom = world[player.X, player.Y];
+
+            if (currentRoom.item != null)
+            {
+                player.bag.Add(currentRoom.item);
+                bag.TotalWeight += currentRoom.item.Weight;
+                currentRoom.item = null;
+            }
+            else if (currentRoom.monster != null)
+            {
+                Console.Write("Du har ett träffat på ett Monster! Buu! Vill du slåss mot det? (Y/N)");
+                string fightMonster = Console.ReadLine();
+                currentRoom.monster = null;
+            }
+
+        }
+
+        private void DisplayPlayStats()
+        {
+            Console.WriteLine($"Player: {player.PlayerName}");
+            Console.WriteLine($"Health: {player.PlayerHealth}");
+            Console.WriteLine($"Bag weight: {bag.TotalWeight}");
         }
 
         private void AskForMovement()
@@ -32,7 +79,7 @@ namespace DoD_rep
             int newY = player.Y;
 
             bool isValidMove = true;
-       
+
             switch (consoleKey.Key)
             {
                 case ConsoleKey.RightArrow: newX++; break;
@@ -42,13 +89,15 @@ namespace DoD_rep
                 default: isValidMove = false; break;
             }
 
-            if(isValidMove && 
-                newX >=0 && newX < world.GetLength(0) && 
-                newY  >= 0 && newY < world.GetLength(1))
+            if (isValidMove &&
+                newX >= 0 && newX < world.GetLength(0) &&
+                newY >= 0 && newY < world.GetLength(1))
             {
                 player.X = newX;
                 player.Y = newY;
-            }            
+
+                player.PlayerHealth--;
+            }
 
         }
 
@@ -60,13 +109,21 @@ namespace DoD_rep
             {
                 for (int x = 0; x < world.GetLength(0); x++)
                 {
-                    if (player.X != x || player.Y != y )
-                    {
-                        Console.Write(".");
-                    }
-                    else if (player.X == x && player.Y == y)
+                    if (player.X == x && player.Y == y) //Om positionen överensstämmer med spelaren så skriv ut spelarens namn
                     {
                         Console.Write(player.PlayerName);
+                    }
+                    else if (world[x, y].item != null) //Annars om rummet inte är tomt så skriv Ä
+                    {
+                        Console.Write("Ä");
+                    }
+                    else if (world[x, y].monster != null) //Annars om rummet inte är tomt så skriv Ä
+                    {
+                        Console.Write("M");
+                    }
+                    else //Skriv ut .
+                    {
+                        Console.Write(".");
                     }
                 }
                 Console.WriteLine();
@@ -81,7 +138,17 @@ namespace DoD_rep
             {
                 for (int x = 0; x < world.GetLength(0); x++)
                 {
-                    world[x, y] = new Room();
+                    world[x, y] = new Room(); //För varje "koordinat/ruta" i vår array skapar vi ett nytt rum
+                    Room room = world[x, y]; //Rummet room = den där specifika rutan
+
+                    if (random.Next(0, 101) < 10) //Om slumparen ger oss en siffra under 10 så får rummet ett item
+                    {
+                        room.item = new Item("Ä", 1);
+                    }
+                    else if (random.Next(0, 101) < 20)
+                    {
+                        room.monster = new Monster(50, "M");
+                    }
                 }
             }
         }

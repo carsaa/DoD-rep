@@ -14,11 +14,13 @@ namespace DoD_rep
             PlayerHealth = playerHealth;
             X = x;
             Y = y;
+            bag = new List<Item>();
         }
 
         public string PlayerName { get; set; }
         public int PlayerHealth { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+        public List<Item> bag { get; set; }
     }
 }
