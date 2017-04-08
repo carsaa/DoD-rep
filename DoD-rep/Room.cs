@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace DoD_rep
 {
-    class Program
+    class Room
     {
-        static void Main(string[] args)
-        {
-            Game game = new Game();
+     
 
-            game.Play();
-        }
+        
+
     }
 }
