@@ -9,7 +9,7 @@ namespace DoD_rep
     class Game
     {
         Room[,] world = new Room[20, 10];
-        Random random = new Random();
+        Random random = new Random(); //TODOD Göra en Random.Utils klass?
         Player player;
         Item item;
         Bag bag = new Bag();
@@ -19,7 +19,7 @@ namespace DoD_rep
         {
             CreateWorld();
             DisplayPlayStats();
-            DisplayWorld();
+            DisplayWorld(); //Måste den här verkligen stå här och i do-while loopen, räcker det inte om den står i loopern?
             DisplayBag();
 
             do
@@ -74,6 +74,7 @@ namespace DoD_rep
 
         private void DisplayPlayStats()
         {
+            //TODOD: Man skulle kunna göra en klass där alla utskrifter sköts.
             Console.WriteLine($"Player: {player.Name}");
             Console.WriteLine($"Health: {player.Health}");
             Console.WriteLine($"Bag weight: {bag.TotalWeight}");
@@ -118,7 +119,7 @@ namespace DoD_rep
                 {
                     if (player.X == x && player.Y == y) //Om positionen överensstämmer med spelaren så skriv ut spelarens namn
                     {
-                        Console.Write(player.Name);
+                        Console.Write(player.Name); //TODOD: Ska man skriva ut hela namnet eller bara initial( typ player.Name[0]) eller en ikon för spelaren?
                     }
                     else if (world[x, y].item is Food && world[x,y].item != null) //Annars om rummet inte är tomt så skriv Ä
                     {

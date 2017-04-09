@@ -8,6 +8,7 @@ namespace DoD_rep
 {
     class Bag
     {
+        //Behöver Bag vara en egen klass? Kan inte den vara en List<GameObjects>? eller List<Items>?
         public Bag()
         {
 
