@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace DoD_rep
 {
-    abstract class Monster : Creature
+    class Ogre: Monster
     {
-        public Monster(int health, string name, int strength) : base(name, health, strength)
+        public Ogre(string name, int health, int strength) : base(health,name, strength)
         {
+
         }
     }
 }

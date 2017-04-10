@@ -6,14 +6,21 @@ using System.Threading.Tasks;
 
 namespace DoD_rep
 {
-    //TODO: Om man ska kunna ta upp monster och bära dom med sig kanske Weight ligga redan i GameObject?
+   
     class Creature : GameObject
     {
-        public Creature(string name, int health) : base (name)
+        public Creature(string name, int health, int strength) : base (name)
         {
-            Health = health;  
+            Health = health;
+            Strength = strength;
         }
 
         public int Health { get; set; }
+        public int Strength { get; set; }
+
+        public  virtual void Battle(Creature opponent)
+        {
+            opponent.Health -= this.Strength;
+        }
     }
 }

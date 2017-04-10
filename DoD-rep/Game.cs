@@ -8,6 +8,7 @@ namespace DoD_rep
 {
     class Game
     {
+        
         Room[,] world = new Room[20, 10];
         Random random = new Random(); //TODOD Göra en Random.Utils klass?
         Player player;
@@ -24,6 +25,7 @@ namespace DoD_rep
 
             do
             {
+                
                 AskForMovement();
                 Console.Clear();
                 DisplayPlayStats();
@@ -65,11 +67,41 @@ namespace DoD_rep
             }
             else if (currentRoom.monster != null)
             {
-                Console.Write("Du har ett träffat på ett Monster! Buu! Vill du slåss mot det? (Y/N)");
+                Console.WriteLine("Du har träffat på ett Monster! Buu! Vill du slåss mot det? (Y/N)");
                 string fightMonster = Console.ReadLine();
+                if (fightMonster=="y")
+                {
+                Battle(currentRoom.monster);
                 currentRoom.monster = null;
-            }
 
+                }
+               
+
+            }
+        }
+
+        private void Battle(Creature monster)
+        {
+
+            do
+            {
+               
+                player.Battle(monster);
+                monster.Battle(player);
+
+            } while (player.Health >0 && monster.Health >0);
+
+            if (player.Health <= 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Game Over");
+                
+            }
+            else
+            {
+                Console.WriteLine($"You slayed the {monster.Name} ");
+            }
+            
         }
 
         private void DisplayPlayStats()
@@ -138,13 +170,14 @@ namespace DoD_rep
                         Console.Write(".");
                     }
                 }
+
                 Console.WriteLine();
             }
         }
 
         private void CreateWorld()
         {
-            player = new Player("P", 100, 5, 5);
+            player = new Player("P", 100, 5, 5,2);
 
             for (int y = 0; y < world.GetLength(1); y++)
             {
@@ -152,6 +185,8 @@ namespace DoD_rep
                 {
                     world[x, y] = new Room(); //För varje "koordinat/ruta" i vår array skapar vi ett nytt rum
                     Room room = world[x, y]; //Rummet room = den där specifika rutan
+
+                    //int temp = random.Next(0, 101);
 
                     if (random.Next(0, 101) < 10) //Om slumparen ger oss en siffra under 10 så får rummet ett item
                     {
@@ -163,9 +198,13 @@ namespace DoD_rep
                             room.item = new Weapon("S", 1);
 
                     }
+                    else if (random.Next(0, 101) < 15)
+                    {
+                        room.monster = new Ogre("M", 50, 10);
+                    }
                     else if (random.Next(0, 101) < 20)
                     {
-                        room.monster = new Monster(50, "M");
+                        room.monster = new Orc("M", 50,10);
                     }
                 }
             }
